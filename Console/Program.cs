@@ -32,9 +32,7 @@ namespace ConsoleUI
             Console.WriteLine("--------------------------\n");
 
             carManager.Add(new Car {ColorId=2, BrandId=2, DailyPrice=1000000, Description="SPORT", ModelYear=2021});
-
-            carManager.Add(new Car {Id=9, ColorId=2, BrandId=2, DailyPrice=1000000, Description="SPORT", ModelYear=2021});
-
+     
 
             carManager.Add(new Car { Id = 9, ColorId = 2, BrandId = 2, DailyPrice = -20000, Description = "SPORT", ModelYear = 2021 });
 
