@@ -1,5 +1,6 @@
 ﻿using Business.Concrete;
 using DataAccess.Concrete;
+using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using System;
 
@@ -9,40 +10,32 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            CarManager carManager = new CarManager(new InMemoryCarDal());
+            CarManager carManager = new CarManager(new EfCarDal());
+            BrandManager brandManager = new BrandManager(new EfBrandDal());
+            ColorManager colorManager = new ColorManager(new EfColorDal());
 
-            Car updateCar = new Car { Id = 1, BrandId = 5, ColorId = 8, DailyPrice = 100000, Description = "SPORT", ModelYear = 2021 };
-            Car deleteCar = new Car { Id = 4 };
-            Car addCar = new Car { Id = 6, BrandId = 5, ColorId = 0, DailyPrice = 20000, Description = "COUPE", ModelYear = 2012 };
-        
-            Console.WriteLine("---------------FIRST LIST-----------------");
 
-            foreach (var car in carManager.GetAll())
+            foreach (var car in carManager.GetCarsByBrandId(3))
             {
-                Console.WriteLine(car.Id +", "+ car.BrandId +", "+ car.ColorId + ", " + car.Description+ ", "+ car.ModelYear+ ", "+ car.DailyPrice);
-            }
-            carManager.Update(updateCar);
-
-            carManager.Add(addCar);
-
-            carManager.Delete(deleteCar);
-
-        
-            Console.WriteLine("\n---------------NEW LIST-----------------");
-
-            foreach (var car in carManager.GetAll())
-            {
-                Console.WriteLine(car.Id + ", " + car.BrandId + ", " + car.ColorId + ", " + car.Description + ", " + car.ModelYear + ", " + car.DailyPrice);
+                Console.WriteLine("{0}\t{1}\t{2}", 
+                car.Id, brandManager.GetByBrandId(car.BrandId).BrandName, colorManager.GetByColorId(car.ColorId).ColorName);
             }
 
+            Console.WriteLine("--------------------------\n");
 
-            Console.WriteLine("\n---------------GETBYID---------------");
-
-            foreach (var car in carManager.GetById(3))
+            foreach (var car in carManager.GetCarsByColorId(1))
             {
-                Console.WriteLine(car.Id + ", " + car.BrandId + ", " + car.ColorId + ", " + car.Description + ", " + car.ModelYear + ", " + car.DailyPrice);
+                Console.WriteLine("{0}\t{1}\t{2}",
+                car.Id, brandManager.GetByBrandId(car.BrandId).BrandName, colorManager.GetByColorId(car.ColorId).ColorName);
             }
-            
+
+            Console.WriteLine("--------------------------\n");
+            //Her çalıştırmada sisteme Id'si 9 olan bir satır oluşturmaya çalıştığı için alttaki satırı kapattım. 
+            //carManager.Add(new Car {Id=9, ColorId=2, BrandId=2, DailyPrice=1000000, Description="SPORT", ModelYear=2021});
+
+            carManager.Add(new Car { Id = 9, ColorId = 2, BrandId = 2, DailyPrice = -20000, Description = "SPORT", ModelYear = 2021 });
+
+            brandManager.Add(new Brand {BrandId=4, BrandName="x" });
         }
     }
 }
