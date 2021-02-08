@@ -26,7 +26,7 @@ namespace Business.Concrete
             if (brand.BrandName.Length > 2)
             {
                  _brandDal.Update(brand);
-                 Console.WriteLine("Brand name has updated!");
+                 Console.WriteLine("Brand name has updated with " + brand.BrandName );
             }
             else
             {
@@ -37,6 +37,7 @@ namespace Business.Concrete
         public void Delete(Brand brand)
         {
             _brandDal.Delete(brand);
+            Console.WriteLine(brand.BrandName + " has deleted!");
         }
 
          public void Add(Brand brand)
@@ -44,7 +45,7 @@ namespace Business.Concrete
              if (brand.BrandName.Length > 2)
              {
                 _brandDal.Add(brand);
-                Console.WriteLine("Car has added!");
+                Console.WriteLine(brand.BrandName + " has added!");
              }
              else
              {

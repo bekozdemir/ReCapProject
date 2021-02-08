@@ -17,11 +17,13 @@ namespace Business.Concrete
         public void Add(Color color)
         {
             _colorDal.Add(color);
+            Console.WriteLine(color.ColorName + "has added.");
         }
 
         public void Delete(Color color)
         {
             _colorDal.Delete(color);
+            Console.WriteLine(color.ColorName + " has deleted.");
         }
 
         public List<Color> GetAll()
@@ -31,12 +33,18 @@ namespace Business.Concrete
 
         public Color GetByColorId(int colorId)
         {
-            return _colorDal.Get(p => p.ColorId == colorId);
+            return _colorDal.Get(cl => cl.ColorId == colorId);
+        }
+
+        public Color GetById(int colorId)
+        {
+            return _colorDal.Get(cl => cl.ColorId == colorId);
         }
 
         public void Update(Color color)
         {
             _colorDal.Update(color);
+            Console.WriteLine("Color name updated with " + color.ColorName + " - ColorID: " + color.ColorId);
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿CREATE TABLE [dbo].[Brands]
-(
-	[Id] INT NOT NULL PRIMARY KEY, 
-    [BrandId] INT NULL, 
-    [BrandName] NCHAR(10) NULL
-)
+﻿CREATE TABLE [dbo].[Brands] (
+    [BrandId]   INT        NOT NULL IDENTITY,
+    [BrandName] NCHAR (10) NOT NULL,
+    CONSTRAINT [PK_Brands] PRIMARY KEY CLUSTERED ([BrandId] ASC)
+);
+
