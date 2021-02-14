@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -16,47 +18,47 @@ namespace Business.Concrete
             _brandDal = brandDal;
         }
 
-        public List<Brand> GetAll()
+        public IDataResult<List<Brand>> GetAll()
         {
-            return _brandDal.GetAll();
+            return new SuccessDataResult<List<Brand>> (_brandDal.GetAll());
         }
 
-        public void Update(Brand brand)
+        public IResult Update(Brand brand)
         {
             if (brand.BrandName.Length > 2)
             {
                  _brandDal.Update(brand);
-                 Console.WriteLine("Brand name has updated with " + brand.BrandName );
+                return new SuccessResult();
             }
             else
             {
-                 Console.WriteLine("Invalid entry!");
+                return new ErrorResult(Messages.InvalidEntry);
             }
         }
 
-        public void Delete(Brand brand)
+        public IResult Delete(Brand brand)
         {
             _brandDal.Delete(brand);
-            Console.WriteLine(brand.BrandName + " has deleted!");
+            return new SuccessResult();
         }
 
-         public void Add(Brand brand)
-         {
+        public IResult Add(Brand brand)
+        {
              if (brand.BrandName.Length > 2)
              {
                 _brandDal.Add(brand);
-                Console.WriteLine(brand.BrandName + " has added!");
+                return new SuccessResult();
              }
              else
              {
-                Console.WriteLine("Invalid entry!");
-             }
+                return new ErrorResult(Messages.InvalidEntry);
+            }
 
-         }
+        }
 
-        public Brand GetByBrandId(int brandId)
+        public IDataResult<Brand> GetByBrandId(int brandId)
         {
-            return _brandDal.Get(c => c.BrandId == brandId);
+            return new SuccessDataResult<Brand>(_brandDal.Get(c => c.BrandId == brandId));
         }
 
            
