@@ -20,7 +20,7 @@ namespace Business.Concrete
 
         public IDataResult<List<Brand>> GetAll()
         {
-            return new SuccessDataResult<List<Brand>> (_brandDal.GetAll());
+            return new SuccessDataResult<List<Brand>> (_brandDal.GetAll(), Messages.SuccessfullOperation);
         }
 
         public IResult Update(Brand brand)
@@ -53,14 +53,11 @@ namespace Business.Concrete
              {
                 return new ErrorResult(Messages.InvalidEntry);
             }
-
         }
 
         public IDataResult<Brand> GetByBrandId(int brandId)
         {
-            return new SuccessDataResult<Brand>(_brandDal.Get(c => c.BrandId == brandId));
-        }
-
-           
+            return new SuccessDataResult<Brand>(_brandDal.Get(c => c.BrandId == brandId), Messages.SuccessfullOperation);
+        } 
     }
 }

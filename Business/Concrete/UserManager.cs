@@ -35,7 +35,7 @@ namespace Business.Concrete
 
         public IDataResult<User> GetById(int userId)
         {
-            return new SuccessDataResult<User>(_userDal.Get(u => u.Id == userId));
+            return new SuccessDataResult<User>(_userDal.Get(u => u.Id == userId), Messages.SuccessfullOperation);
         }
 
         public IResult Update(User user)
