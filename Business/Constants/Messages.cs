@@ -13,6 +13,8 @@ namespace Business.Constants
         public static string CarUpdated = "Car has modified";
         public static string CarListed = "Cars have listed";
         public static string Maintenance = "Under maintenance";
-        public static string SuccessfullOperation = "İşlem başarılı"; 
+        public static string SuccessfullOperation = "İşlem başarılı";
+        internal static string ImageLimitExceeded = "Bir arabanın 5 adetten fazla resimi olamaz.";
+        internal static string ImageDoesntExists = "Resim bulunmamakta";
     }
 }
