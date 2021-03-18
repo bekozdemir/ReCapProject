@@ -1,13 +1,7 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Entities.Dtos;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 
 namespace WebAPI.Controllers
 {
@@ -15,67 +9,55 @@ namespace WebAPI.Controllers
     [ApiController]
     public class CarImagesController : ControllerBase
     {
-        ICarImageService _carImageService;
-        IFileProcess _fileProcess;
-        public CarImagesController(ICarImageService carImageService, IFileProcess fileProcess)
+        private readonly ICarImageService _carImageService;
+
+        public CarImagesController(ICarImageService carImageService)
         {
             _carImageService = carImageService;
-            _fileProcess = fileProcess;
         }
 
         [HttpPost("add")]
-        public IActionResult Add([FromForm] IFormFile file, [FromForm] int id)
+        [DisableRequestSizeLimit]
+        public IActionResult Add([FromForm] CarImagesOperationDto carImagesOperationDto)
         {
-            var result = _carImageService.Add(id,file);
+            var result = _carImageService.Add(carImagesOperationDto);
             if (result.Success)
-            {
                 return Ok(result);
-            }
-            return BadRequest(result);
-        }
-
-        [HttpPost("delete")]
-        public IActionResult Delete(int id)
-        {
-            var result = _carImageService.Delete(id);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
             return BadRequest(result);
         }
 
         [HttpPost("update")]
-        public IActionResult Update([FromForm] IFormFile file, [FromForm] int id)
+        [DisableRequestSizeLimit]
+        public IActionResult Update([FromForm] CarImagesOperationDto carImagesOperationDto)
         {
-            var result = _carImageService.Update(id, file);
+            var result = _carImageService.Update(carImagesOperationDto);
             if (result.Success)
-            {
                 return Ok(result);
-            }
             return BadRequest(result);
         }
 
-        [HttpGet("getbycarid")]
-        public IActionResult GetByCarId(int carId)
+        [HttpPost("delete")]
+        public IActionResult Delete(CarImage carImage)
         {
-            var result = _carImageService.GetByCarId(carId);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
+            return Ok(_carImageService.Delete(carImage));
         }
 
-        [HttpGet("getbyimageid")]
-        public IActionResult GetByImageId(int id)
+        [HttpGet("get")]
+        public IActionResult Get()
         {
-            var result = _carImageService.GetById(id);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
+            return Ok(_carImageService.GetAll());
+        }
+
+        [HttpGet("getall")]
+        public IActionResult GetAll()
+        {
+            return Ok(_carImageService.GetAll());
+        }
+
+        [HttpGet("getallbycarid")]
+        public IActionResult GetAllByCarId(int carId)
+        {
+            return Ok(_carImageService.GetAllByCarId(carId));
         }
     }
 }

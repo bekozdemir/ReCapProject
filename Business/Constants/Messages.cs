@@ -26,5 +26,13 @@ namespace Business.Constants
 
         public static string AuthorizationDenied = "Yetkiniz yok";
         public static string ProductNameAlreadyExists = "Ürün ismi zaten mevcut";
+        public static string DeleteCarImageMessage = "Araba resmi silindi";
+        public static string EditCarImageMessage = "Araç resmi başarıyla güncellendi";
+        public static string AboveImageAddingLimit = "Araç maksimum resim sayısına ulaştı. Resim ekleyemezsiniz";
+        public static string CarImageNotFound = "Değiştirilmek istenen resim bulunamadı.";
+
+        public static string AddCarImageMessage = "Araç resmi başarıyla eklendi";
+        public static string ImageNotFound = "Resim dosyası bulunamadı.";
+        public static string IncorrectFileExtension = "Kabul edilmeyen dosya uzantısı";
     }
 }

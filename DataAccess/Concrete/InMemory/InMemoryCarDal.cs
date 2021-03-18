@@ -56,7 +56,12 @@ namespace DataAccess.Concrete
             return _cars.Where(c=> c.Id==Id).ToList();
         }
 
-        public List<CarDetailDto> GetCarDetails()
+        public List<CarDetailDto> GetCarDetail(int carId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<CarDetailDto> GetCarsDetail(Expression<Func<Car, bool>> filter = null)
         {
             throw new NotImplementedException();
         }

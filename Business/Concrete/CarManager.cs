@@ -15,6 +15,7 @@ using Entities.DTOs;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace Business.Concrete
@@ -71,14 +72,14 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarAdded);
         }
 
-        public IDataResult<List<Car>> GetCarsByBrandId(int brandId)
+        public IDataResult<List<CarDetailDto>> GetCarsByBrandId(int brandId)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == brandId), Messages.CarListed);
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarsDetail(c => c.BrandId == brandId), Messages.CarListed);
         }
 
-        public IDataResult<List<Car>> GetCarsByColorId(int colorId)
+        public IDataResult<List<CarDetailDto>> GetCarsByColorId(int colorId)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == colorId), Messages.CarListed);
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarsDetail(c => c.ColorId == colorId), Messages.CarListed);
         }
 
         [CacheAspect]
@@ -88,13 +89,17 @@ namespace Business.Concrete
             return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == carId), Messages.CarListed);
         }
 
-        public IDataResult<List<CarDetailDto>> GetCarDetails()
+        public IDataResult<List<CarDetailDto>> GetCarsDetails()
         {
-            if (DateTime.Now.Hour == 18)
+            List<CarDetailDto> carDetails = _carDal.GetCarsDetail();
+            if (carDetails == null)
             {
-                return new ErrorDataResult<List<CarDetailDto>>(Messages.Maintenance);
+                return new ErrorDataResult<List<CarDetailDto>>(Messages.InvalidEntry);
             }
-            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(), Messages.CarListed);
+            else
+            {
+                return new SuccessDataResult<List<CarDetailDto>>(carDetails, Messages.InvalidEntry);
+            }
         }
 
         [TransactionScopeAspect]

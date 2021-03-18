@@ -13,19 +13,43 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfCarDal : EfEntityRepositoryBase<Car, CarsCompanyContext>, ICarDal
     {
-        public List<CarDetailDto> GetCarDetails()
+        public List<CarDetailDto> GetCarDetail(int carId)
         {
             using (CarsCompanyContext context = new CarsCompanyContext())
             {
                 var result = from c in context.Cars
                              join b in context.Brands on c.BrandId equals b.BrandId 
                              join co in context.Colors on c.ColorId equals co.ColorId
-                             select new CarDetailDto {BrandName=b.BrandName, CarName=c.CarName, 
-                                 ColorName=co.ColorName, DailyPrice=c.DailyPrice };
-                return result.ToList();
-                             
+                             select new CarDetailDto {
+                                 Id=c.Id, 
+                                 Description=c.Description, 
+                                 ModelYear=c.ModelYear, 
+                                 BrandName=b.BrandName, 
+                                 CarName=c.CarName, 
+                                 ColorName=co.ColorName, 
+                                 DailyPrice=c.DailyPrice };
+                return result.ToList();                          
+            }
+        }
 
-                            
+        public List<CarDetailDto> GetCarsDetail(Expression<Func<Car, bool>> filter = null)
+        {
+            using (CarsCompanyContext context = new CarsCompanyContext())
+            {
+                var result = from c in  filter == null? context.Cars : context.Cars.Where(filter)
+                             join b in context.Brands on c.BrandId equals b.BrandId
+                             join co in context.Colors on c.ColorId equals co.ColorId
+                             select new CarDetailDto
+                             {
+                                 Id = c.Id,
+                                 Description = c.Description,
+                                 ModelYear = c.ModelYear,
+                                 BrandName = b.BrandName,
+                                 CarName = c.CarName,
+                                 ColorName = co.ColorName,
+                                 DailyPrice = c.DailyPrice
+                             };
+                return result.ToList();
             }
         }
     }
