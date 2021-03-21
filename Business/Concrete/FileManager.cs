@@ -18,7 +18,7 @@ namespace Business.Concrete
         public FileManager(IHostingEnvironment environment)
         {
             _environment = environment;
-            FileDirectory = environment.ContentRootPath + "/Images/";
+            FileDirectory = environment.ContentRootPath;
         }
         
         public async Task<IResult> Upload(string fileName, IFormFile file)

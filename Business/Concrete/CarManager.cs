@@ -98,7 +98,7 @@ namespace Business.Concrete
             }
             else
             {
-                return new SuccessDataResult<List<CarDetailDto>>(carDetails, Messages.InvalidEntry);
+                return new SuccessDataResult<List<CarDetailDto>>(carDetails, Messages.SuccessfullOperation);
             }
         }
 
@@ -113,6 +113,17 @@ namespace Business.Concrete
             }
             Add(car);
             return null;
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailByCarId(int carId)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarsDetail(c =>c.Id == carId), Messages.SuccessfullOperation);
+        
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarsByBrandAndColorId(int brandId, int colorId)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarsDetail(c => c.BrandId == brandId && c.ColorId == colorId), Messages.SuccessfullOperation);
         }
     }
 }

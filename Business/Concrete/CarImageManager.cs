@@ -1,61 +1,75 @@
 ﻿using Business.Abstract;
+using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
+using Core.Utilities.BusinessRules;
 using Core.Utilities.Helpers;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
-using Entities.Dtos;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
-using Business.Constants;
-
-using Core.Utilities.BusinessRules;
-using Core.Constants;
+using System.IO;
+using System.Linq;
+using System.Text;
 
 namespace Business.Concrete
 {
     public class CarImageManager : ICarImageService
     {
-        private readonly ICarImageDal _carImageDal;
-
+        ICarImageDal _carImageDal;
         public CarImageManager(ICarImageDal carImageDal)
         {
             _carImageDal = carImageDal;
         }
 
-        [ValidationAspect(typeof(CarImagesOperationDtoValidator))]
-        public IResult Add(CarImagesOperationDto carImagesOperationDto)
+        [ValidationAspect(typeof(CarImageValidator))]
+        public IResult Add(CarImage carImage, IFormFile file)
         {
-            var result = BusinessRules.Run(CheckCarImageCount(carImagesOperationDto.CarId));
+            IResult result = BusinessRules.Run(
+                CheckIfImageLimitExpired(carImage.CarId),
+                CheckIfImageExtensionValid(file)
+                );
+
             if (result != null)
             {
                 return result;
             }
 
-            foreach (var file in carImagesOperationDto.Images)
+            carImage.ImagePath = FileProcessHelper.Add(file);
+            carImage.Date = DateTime.Now;
+            _carImageDal.Add(carImage);
+            return new SuccessResult();
+        }
+
+        public IResult Delete(CarImage carImage)
+        {
+            IResult result = BusinessRules.Run(
+                CheckIfImageExists(carImage.Id)
+                );
+            if (result != null)
             {
-                _carImageDal.Add(new CarImage
-                {
-                    CarId = carImagesOperationDto.CarId,
-                    ImagePath = FileProcessHelper.Upload(DefaultNameOrPath.ImageDirectory, file).Data
-            });
+                return result;
             }
-
-            return new SuccessResult(Messages.AddCarImageMessage);
+            string path = GetById(carImage.Id).Data.ImagePath;
+            FileProcessHelper.Delete(path);
+            _carImageDal.Delete(carImage);
+            return new SuccessResult();
         }
 
-        public IResult Delete(CarImage entity)
+        public IResult DeleteByCarId(int carId)
         {
-            var imageData = _carImageDal.Get(p => p.Id == entity.Id);
-            FileProcessHelper.Delete(imageData.ImagePath);
-            _carImageDal.Delete(imageData);
-            return new SuccessResult(Messages.DeleteCarImageMessage);
-        }
-
-        public IDataResult<CarImage> Get(int id)
-        {
-            return new SuccessDataResult<CarImage>(_carImageDal.Get(p => p.Id == id));
+            var result = _carImageDal.GetAll(c => c.CarId == carId);
+            if (result.Any())
+            {
+                foreach (var carImage in result)
+                {
+                    Delete(carImage);
+                }
+                return new SuccessResult();
+            }
+            return new ErrorResult(Messages.ImageNotFound);
         }
 
         public IDataResult<List<CarImage>> GetAll()
@@ -63,76 +77,67 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll());
         }
 
-        [ValidationAspect(typeof(CarImagesOperationDtoValidator))]
-        public IResult Update(CarImagesOperationDto carImagesOperationDto)
-        {
-            foreach (var file in carImagesOperationDto.Images)
-            {
-                var result = BusinessRules.Run(
-                    CheckIfCarImagesId(carImagesOperationDto.Id),
-                    CheckCarImageCount(carImagesOperationDto.CarId)
-                );
-                if (result != null)
-                {
-                    return result;
-                }
-
-                FileProcessHelper.Delete(_carImageDal.Get(p => p.Id == carImagesOperationDto.Id).ImagePath);
-                _carImageDal.Update(new CarImage
-                {
-                    Id = carImagesOperationDto.Id,
-                    CarId = carImagesOperationDto.CarId,
-                    ImagePath = FileProcessHelper.Upload(DefaultNameOrPath.ImageDirectory, file).Data
-                });
-            }
-
-            return new SuccessResult(Messages.EditCarImageMessage);
-        }
-
         public IDataResult<List<CarImage>> GetAllByCarId(int carId)
         {
-
-
-            var getAllbyCarIdResult = _carImageDal.GetAll(p => p.CarId == carId);
-            if (getAllbyCarIdResult.Count == 0)
-            {
-                return new SuccessDataResult<List<CarImage>>(new List<CarImage>
-                {
-                    new CarImage
-                    {
-                        Id = -1,
-                        CarId = carId,
-                        Date = DateTime.MinValue,
-                        ImagePath = DefaultNameOrPath.NoImagePath
-                    }
-                });
-            }
-
-            return new SuccessDataResult<List<CarImage>>(getAllbyCarIdResult);
+            return new SuccessDataResult<List<CarImage>>(CheckIfCarHaveNoImage(carId), Messages.SuccessfullOperation);
         }
 
-        #region Car Image Business Rules
-
-        private IResult CheckCarImageCount(int carId)
+        public IDataResult<CarImage> GetById(int id)
         {
-            if (_carImageDal.GetAll(p => p.CarId == carId).Count > 4)
+            return new SuccessDataResult<CarImage>(_carImageDal.Get(c => c.Id == id));
+        }
+
+        public IResult Update(CarImage carImage, IFormFile file)
+        {
+            IResult result = BusinessRules.Run(
+                CheckIfImageLimitExpired(carImage.CarId),
+                CheckIfImageExtensionValid(file),
+                CheckIfImageExists(carImage.Id)
+                );
+
+            if (result != null)
             {
+                return result;
+            }
+
+            CarImage oldCarImage = GetById(carImage.Id).Data;
+            carImage.ImagePath = FileProcessHelper.Update(file, oldCarImage.ImagePath);
+            carImage.Date = DateTime.Now;
+            carImage.CarId = oldCarImage.CarId;
+            _carImageDal.Update(carImage);
+            return new SuccessResult();
+        }
+
+        private IResult CheckIfImageLimitExpired(int carId)
+        {
+            int result = _carImageDal.GetAll(c => c.CarId == carId).Count;
+            if (result >= 5)
                 return new ErrorResult(Messages.AboveImageAddingLimit);
-            }
-
             return new SuccessResult();
         }
 
-        private IResult CheckIfCarImagesId(int Id)
+        private IResult CheckIfImageExtensionValid(IFormFile file)
         {
-            if (_carImageDal.Get(p => p.Id == Id) == null)
-            {
-                return new ErrorResult(Messages.CarImageNotFound);
-            }
-
+            bool isValidFileExtension = Messages.ValidImageFileTypes.Any(t => t == Path.GetExtension(file.FileName).ToUpper());
+            if (!isValidFileExtension)
+                return new ErrorResult(Messages.IncorrectFileExtension);
             return new SuccessResult();
         }
 
-        #endregion Car Image Business Rules
+        private List<CarImage> CheckIfCarHaveNoImage(int carId)
+        {
+            string path = @"\Images\default.png";
+            var result = _carImageDal.GetAll(c => c.CarId == carId);
+            if (!result.Any())
+                return new List<CarImage> { new CarImage { CarId = carId, ImagePath = path } };
+            return result;
+        }
+
+        private IResult CheckIfImageExists(int id)
+        {
+            if (_carImageDal.IsExist(id))
+                return new SuccessResult();
+            return new ErrorResult(Messages.CarImageNotFound);
+        }
     }
 }

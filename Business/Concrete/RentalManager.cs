@@ -50,7 +50,7 @@ namespace Business.Concrete
             return new SuccessDataResult<Rental>(_rentalDal.Get(r => r.Id == rentalId), Messages.SuccessfullOperation);
         }
 
-        public IDataResult<List<RentCarDetailDto>> GetRentDetails(Expression<Func<Rental, bool>> filter = null)
+        public IDataResult<List<RentCarDetailDto>> GetRentDetails()
         {
             return new SuccessDataResult<List<RentCarDetailDto>>(_rentalDal.GetRentDetails(),Messages.SuccessfullOperation);
         }
