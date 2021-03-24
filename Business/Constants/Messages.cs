@@ -36,5 +36,7 @@ namespace Business.Constants
         public static string AddCarImageMessage = "Araç resmi başarıyla eklendi";
         public static string ImageNotFound = "Resim dosyası bulunamadı.";
         public static string IncorrectFileExtension = "Kabul edilmeyen dosya uzantısı";
+
+        public static string BalanceErrorMessage = "Yetersiz bakiye!";
     }
 }

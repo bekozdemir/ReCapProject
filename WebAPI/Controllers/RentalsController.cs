@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
+using Core.Aspects.Autofac.Transaction;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -15,10 +17,12 @@ namespace WebAPI.Controllers
     public class RentalsController : ControllerBase
     {
         IRentalService _rentalService;
+        IPaymentService _paymentService;
 
-        public RentalsController(IRentalService rentalService)
+        public RentalsController(IRentalService rentalService, IPaymentService paymentService)
         {
             _rentalService = rentalService;
+            _paymentService = paymentService;
         }
 
         [HttpGet("getbyid")]
@@ -87,6 +91,24 @@ namespace WebAPI.Controllers
                 return Ok(result);
             }
             return BadRequest(result);
+        }
+
+        [HttpPost("paymentadd")]
+        [TransactionScopeAspect]
+        public ActionResult PaymentAdd(RentalPaymentDto rentalPaymentDto)
+        {
+            var paymentResult = _paymentService.ReceivePayment(rentalPaymentDto.Payment, rentalPaymentDto.Rental);
+            if (!paymentResult.Success)
+            {
+                return BadRequest(paymentResult);
+            }
+            var result = _rentalService.Add(rentalPaymentDto.Rental);
+
+            if (result.Success)
+            {
+                return Ok(result);                
+            }
+            return BadRequest(result); 
         }
     }
 }

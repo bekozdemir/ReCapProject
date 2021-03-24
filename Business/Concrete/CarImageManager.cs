@@ -40,7 +40,7 @@ namespace Business.Concrete
             carImage.ImagePath = FileProcessHelper.Add(file);
             carImage.Date = DateTime.Now;
             _carImageDal.Add(carImage);
-            return new SuccessResult();
+            return new SuccessResult(Messages.AddCarImageMessage);
         }
 
         public IResult Delete(CarImage carImage)
@@ -126,7 +126,7 @@ namespace Business.Concrete
 
         private List<CarImage> CheckIfCarHaveNoImage(int carId)
         {
-            string path = @"\Images\default.png";
+            string path = @"\NoImage.png";
             var result = _carImageDal.GetAll(c => c.CarId == carId);
             if (!result.Any())
                 return new List<CarImage> { new CarImage { CarId = carId, ImagePath = path } };
