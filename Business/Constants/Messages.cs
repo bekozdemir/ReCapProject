@@ -15,6 +15,11 @@ namespace Business.Constants
         public static string CarDeleted = "Car has deleted";
         public static string CarUpdated = "Car has modified";
         public static string CarListed = "Cars have listed";
+        public static string ColorUpdated = "Chosed color has updated.";
+        public static string ColorNotFound = "Chosed color has not found.";
+        public static string BrandUpdated = "Chosed brand has updated.";
+        public static string BrandAdded = "Brand added";
+        public static string BrandNameAlreadyExist = "Brand name has already exists.";
         public static string Maintenance = "Under maintenance";
         public static string SuccessfullOperation = "İşlem başarılı";
         public static string ImageLimitExceeded = "Bir arabanın 5 adetten fazla resimi olamaz.";
@@ -25,6 +30,7 @@ namespace Business.Constants
         public static string UserAlreadyExists = "Bu kullanıcı zaten mevcut";
         public static string UserRegistered = "Kullanıcı başarıyla kaydedildi";
         public static string AccessTokenCreated = "Access token başarıyla oluşturuldu";
+
 
         public static string AuthorizationDenied = "Yetkiniz yok";
         public static string ProductNameAlreadyExists = "Ürün ismi zaten mevcut";

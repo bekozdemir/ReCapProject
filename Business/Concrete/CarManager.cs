@@ -63,7 +63,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarDeleted); 
         }
 
-        [SecuredOperation("car.add,admin")]
+        //[SecuredOperation("car.add,admin")]
         [ValidationAspect(typeof(CarValidator))]
         [CacheRemoveAspect("IProductService.Get")]
         public IResult Add(Car car)
