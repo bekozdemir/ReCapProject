@@ -23,7 +23,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  CustomerId = cu.Id,
                                  CompanyName = cu.CompanyName,
                                  FirstName = u.FirstName,
-                                 LastName = u.LastName
+                                 LastName = u.LastName,
+                                 Findeks = cu.Findeks
                              };
                 return result.ToList();
             }

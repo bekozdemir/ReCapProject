@@ -26,7 +26,7 @@ namespace Business.Constants
         public static string ImageDoesntExists = "Resim bulunmamakta";
         public static string UserNotFound = "Kullanıcı bulunamadı";
         public static string PasswordError = "Şifre hatalı";
-        public static string SuccessfulLogin = "Sisteme giriş başarılı";
+        public static string SuccessfullLogin = "Sisteme giriş başarılı";
         public static string UserAlreadyExists = "Bu kullanıcı zaten mevcut";
         public static string UserRegistered = "Kullanıcı başarıyla kaydedildi";
         public static string AccessTokenCreated = "Access token başarıyla oluşturuldu";
@@ -44,5 +44,10 @@ namespace Business.Constants
         public static string IncorrectFileExtension = "Kabul edilmeyen dosya uzantısı";
 
         public static string BalanceErrorMessage = "Yetersiz bakiye!";
+        public static string FindeksError="Findeks puanınız yetersiz!";
+        public static string FindeksSuccess="Findeks puanı yeterli.";
+        
+        public static string UserAuthUpdated="User has modified.";
+        public static string UserListed="Bu maile sahip kullanıcı listelendi.";
     }
 }

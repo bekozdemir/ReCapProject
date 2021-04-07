@@ -15,6 +15,8 @@ namespace Entities.DTOs
         public string ColorName { get; set; }
         public string BrandName { get; set; }
         public decimal DailyPrice { get; set; }
+        public bool RentStatus { get; set; }
+        public int FindeksScore { get; set; }
 
     }
 }

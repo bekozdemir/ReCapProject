@@ -10,7 +10,7 @@ namespace DataAccess.Abstract
 {
     public interface ICarDal: IEntityRepository<Car>
     {
-        List<CarDetailDto> GetCarDetail(int carId);
+        List<CarDetailDto> GetCarDetailsByCarId(int carId);
         List<CarDetailDto> GetCarsDetail(Expression<Func<Car, bool>> filter = null);
 
     }

@@ -52,7 +52,7 @@ namespace Business.Concrete
                 return new ErrorDataResult<UserAuth>(Messages.PasswordError);
             }
 
-            return new SuccessDataResult<UserAuth>(userToCheck, Messages.SuccessfulLogin);
+            return new SuccessDataResult<UserAuth>(userToCheck, Messages.SuccessfullLogin);
         }
 
         public IResult UserExists(string email)
@@ -67,8 +67,18 @@ namespace Business.Concrete
         public IDataResult<AccessToken> CreateAccessToken(UserAuth userAuth)
         {
             var claims = _userAuthService.GetClaims(userAuth);
-            var accessToken = _tokenHelper.CreateToken(userAuth, claims);
+            var accessToken = _tokenHelper.CreateToken(userAuth, claims.Data);
             return new SuccessDataResult<AccessToken>(accessToken, Messages.AccessTokenCreated);
         }
+
+        public IResult UserIdExists(int id)
+        {
+            var userAuth = _userAuthService.GetById(id);
+            if (userAuth != null)
+            {
+                return new SuccessResult("Kullanıcı mevcut");
+            }
+            return new ErrorResult("Kullanıcı bulunamadı.");
+        }  
     }
 }

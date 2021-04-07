@@ -82,7 +82,7 @@ namespace WebAPI.Controllers
         {
             Thread.Sleep(1000);
 
-            var result = _carService.GetCarDetailByCarId(carId);
+            var result = _carService.GetCarDetailsByCarId(carId);
             if (result.Success)
             {
                 return Ok(result);
