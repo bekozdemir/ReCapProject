@@ -1,8 +1,9 @@
 # Rent A Car System
+## General Info
 > This is an example of rent a car system for todays online websites. Aim of this project is improving my skills and learn new design patterns.
 
 ## Table of contents
-* [General info](#general-info)
+* [General Info](#general-info)
 * [Technologies](#technologies)
 * [Setup](#setup)
 * [Status](#status)
