@@ -46,13 +46,13 @@
 ## Setup
 First of all, you need to download the files and open the solution. After that, you have to do some essential configurations.
 <ul> 
-  <li>1.Create the sql tables. You can check my sql query from here.</li>
-   <li>2.You should connect your tables with your Entities from CarsCompanyContext.cs</li>
-    <li>3.At CarsCompanyContext.cs you should change the server name with your server name in SQL Server Object Explorer.</li>
+  <li>Create the sql tables. You can check my sql query from here.</li>
+  <li>You should connect your tables with your Entities from CarsCompanyContext.cs</li>
+  <li>At CarsCompanyContext.cs you should change the server name with your server name in SQL Server Object Explorer.</li>
 </ul>
 
 ## Features
-List of features ready and TODOs for future development
+List of features ready 
 * Login/Register
 * Car/Brand/Color Add/Update
 * Car/Brand/Color filter options
