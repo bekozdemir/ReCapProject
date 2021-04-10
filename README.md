@@ -5,7 +5,6 @@
 * [General info](#general-info)
 * [Technologies](#technologies)
 * [Setup](#setup)
-* [Screenshots](#screenshots)
 * [Status](#status)
 * [Inspiration](#inspiration)
 * [Contact](#contact)
@@ -60,9 +59,6 @@ List of features ready and TODOs for future development
 * Looking details of cars
 * Creating rental
 
-
-## Screenshots
-![Login Screen](./ReadMeImages/login.PNG)
 
 ## Status
 Project is: _struggling wtih some bugs and still developing the project_
