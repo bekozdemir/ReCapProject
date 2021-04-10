@@ -45,11 +45,11 @@
 
 ## Setup
 First of all, you need to download the files and open the solution. After that, you have to do some essential configurations.
- 
+> 
  1.Create the sql tables. You can check my sql query from here.
  2.You should connect your tables with your Entities from CarsCompanyContext.cs
  3.At CarsCompanyContext.cs you should change the server name with your server name in SQL Server Object Explorer.
-`
+
 
 ## Features
 List of features ready and TODOs for future development
@@ -59,6 +59,8 @@ List of features ready and TODOs for future development
 * Looking details of cars
 * Creating rental
 
+## Screenshots
+You can see screen shots of the website from [here](https://github.com/bekozdemir/rentacar-frontend/blob/master/README.md).
 
 ## Status
 Project is: _struggling wtih some bugs and still developing the project_
