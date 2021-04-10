@@ -1,5 +1,6 @@
 ﻿
 using Business.Abstract;
+using Business.Constants;
 using Core.Utilities.Results;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Hosting;
@@ -59,7 +60,7 @@ namespace WebAPI.Controllers
         {
             if (file == null)
             {
-                return BadRequest("Boş resim gönderemezsin");
+                return BadRequest(Messages.CarImageNotFound);
             }
             IResult result = _carImageService.Add(carImage, file);
             if (result.Success)
@@ -74,7 +75,7 @@ namespace WebAPI.Controllers
         {
             if (file == null)
             {
-                return BadRequest("Boş resim gönderemezsin");
+                return BadRequest(Messages.CarImageNotFound);
             }
             IResult result = _carImageService.Update(carImage, file);
             if (result.Success)

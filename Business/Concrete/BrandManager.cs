@@ -28,17 +28,18 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Brand>> (_brandDal.GetAll(), Messages.SuccessfullOperation);
         }
 
+        [SecuredOperation("admin")]
+        [ValidationAspect(typeof(BrandValidator))]
         public IResult Update(Brand brand)
         {
-            if (brand.BrandName.Length > 2)
+            IResult result = BusinessRules.Run(CheckIfBrandNameExist(brand.BrandName));
+            if (result != null)
             {
-                 _brandDal.Update(brand);
-                return new SuccessResult();
+                return result;
             }
-            else
-            {
-                return new ErrorResult(Messages.InvalidEntry);
-            }
+            _brandDal.Update(brand);
+            return new SuccessResult(Messages.BrandUpdated);
+           
         }
 
         public IResult Delete(Brand brand)

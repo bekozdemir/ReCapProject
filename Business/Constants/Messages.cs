@@ -15,6 +15,8 @@ namespace Business.Constants
         public static string CarDeleted = "Car has deleted";
         public static string CarUpdated = "Car has modified";
         public static string CarListed = "Cars have listed";
+        public static string ColorAdded = "Color has added.";
+        internal static string ColorNameAlreadyExist = "Color name has already exists.";
         public static string ColorUpdated = "Chosed color has updated.";
         public static string ColorNotFound = "Chosed color has not found.";
         public static string BrandUpdated = "Chosed brand has updated.";
@@ -49,5 +51,6 @@ namespace Business.Constants
         
         public static string UserAuthUpdated="User has modified.";
         public static string UserListed="Bu maile sahip kullanıcı listelendi.";
+        
     }
 }

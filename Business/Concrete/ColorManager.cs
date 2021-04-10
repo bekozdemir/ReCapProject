@@ -3,6 +3,7 @@ using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
+using Core.Utilities.BusinessRules;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -25,8 +26,13 @@ namespace Business.Concrete
         [ValidationAspect(typeof(ColorValidator))]
         public IResult Add(Color color)
         {
+            IResult result = BusinessRules.Run(CheckIfColorNameExist(color.ColorName));
+            if (result != null)
+            {
+                return result;
+            }
             _colorDal.Add(color);
-            return new SuccessResult();
+            return new SuccessResult(Messages.ColorAdded);
            
         }
 
@@ -46,8 +52,15 @@ namespace Business.Concrete
             return new SuccessDataResult<Color>(_colorDal.Get(cl => cl.ColorId == colorId), Messages.SuccessfullOperation);
         }
 
+        [SecuredOperation("admin")]
+        [ValidationAspect(typeof(ColorValidator))]
         public IResult Update(Color color)
         {
+            IResult result = BusinessRules.Run(CheckIfColorNameExist(color.ColorName));
+            if (result != null)
+            {
+                return result;
+            }
             _colorDal.Update(color);
             return new SuccessResult(Messages.ColorUpdated);
         }
@@ -64,6 +77,16 @@ namespace Business.Concrete
                 return new SuccessResult(Messages.ColorUpdated);
             }
             return new ErrorResult(Messages.ColorNotFound);
+        }
+
+        private IResult CheckIfColorNameExist(string colorName)
+        {
+            var result = _colorDal.GetAll(c => c.ColorName == colorName).Count;
+            if (result > 0)
+            {
+                return new ErrorResult(Messages.ColorNameAlreadyExist);
+            }
+            return new SuccessResult(Messages.ColorAdded);
         }
     }
 }
