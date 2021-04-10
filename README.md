@@ -64,7 +64,9 @@ List of features ready and TODOs for future development
 Project is: _struggling wtih some bugs and still developing the project_
 
 ## Inspiration
+This project started to develop paralel with [Engin DEMİROG](https://github.com/engindemirog)'s online developers education camp. I need to thank to engindemirog for his great online course and big heart. Also, I need to thank to this community who helped me with the questions and bugs.
 
+[kodlama.io](https://www.kodlama.io/)
 
 ## Contact
-Created by [@bekozdemir](https://github.com/bekozdemir/) - feel free to contact me!
+Created by [@bekozdemir](https://github.com/bekozdemir/) - feel free to contact with me!
