@@ -63,7 +63,7 @@ List of features ready
 You can see screen shots of the website from [here](https://github.com/bekozdemir/rentacar-frontend/blob/master/README.md).
 
 ## Status
-Project is: _struggling wtih some bugs and still developing the project_
+Project status: _struggling wtih some bugs and still developing the project_
 
 ## Inspiration
 This project started to develop paralel with [Engin DEMİROG](https://github.com/engindemirog)'s online developers education camp. I need to thank to engindemirog for his great online course and big heart. Also, I need to thank to this community who helped me with the questions and bugs.
