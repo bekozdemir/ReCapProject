@@ -62,7 +62,7 @@ List of features ready and TODOs for future development
 
 
 ## Screenshots
-![Example screenshot](./ReadMeImages/login.PNG)
+![Login Screen](./ReadMeImages/login.PNG)
 
 ## Status
 Project is: _struggling wtih some bugs and still developing the project_
