@@ -1,5 +1,5 @@
 # Rent A Car System
-> This is an example of rent a car system for todays online websides. Aim of this project is improving my skills and learn new design patterns.
+> This is an example of rent a car system for todays online websites. Aim of this project is improving my skills and learn new design patterns.
 
 ## Table of contents
 * [General info](#general-info)
