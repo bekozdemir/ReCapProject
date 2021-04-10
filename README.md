@@ -1,3 +1,5 @@
+[![LinkedIn][linkedin-shield]][linkedin-url]
+
 # Rent A Car System
 ## General Info
 > This is an example of rent a car system for todays online websites. Aim of this project is improving my skills and learn new design patterns.
@@ -73,3 +75,7 @@ This project started to develop paralel with [Engin DEMİROG](https://github.com
 
 ## Contact
 Created by [@bekozdemir](https://github.com/bekozdemir/) - feel free to contact with me!
+
+
+[linkedin-shield]: https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white
+[linkedin-url]: https://www.linkedin.com/in/berkay-özdemir/
